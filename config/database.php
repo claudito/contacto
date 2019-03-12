@@ -1,10 +1,10 @@
 <?php 
 
 set_time_limit(5000);
-define("URL","http://localhost/admin2/");
+define("URL","http://localhost/contacto/");
 date_default_timezone_set('America/Lima');
 define("KEY","adecb2e24eb1c1f24edd097e7aba7967-admin2/");
-define("FOLDER","/admin2/");
+define("FOLDER","/contacto/");
 define("SERVER", "200.60.144.12");
 define("USER", "root");
 define("PASS", "csglobal2019");
