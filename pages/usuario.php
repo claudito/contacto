@@ -127,8 +127,8 @@
     </div>
     <div class="col-md-6">
     <div class="form-group">
-    <label>Telefóno</label>
-    <input type="tel" name="telefono"  class="telefono form-control "  maxlength="9">
+    <label>Empresa</label>
+    <select name="empresa" class="empresa form-control" required></select>
    
     </div> 
     </div>
@@ -320,6 +320,24 @@ e.stopImmediatePropagation();
  $('#registro')[0].reset();
  $('.type').val('agregar');
 
+ //Cargar Empresa
+ url     = "sources/usuario.php?op=7";
+ empresa = '<option value="">[Seleccionar]</option>';
+
+ $.getJSON(url,{},function(row){
+ 
+ row.forEach(function(data){
+
+ empresa += '<option value="'+data.id+'">'+data.alias+'</option>';
+
+ $('.empresa').html(empresa);
+
+ });
+
+ });
+
+
+
  $('.btn-submit').attr('value','Agregar');
  $('.modal-title').html('Agregar');
  $('#modal-registro').modal('show');
@@ -343,9 +361,35 @@ $(document).on('click','.btn-edit',function (e){
   $('.apellidos').val(data.apellidos);
   $('.correo').val(data.Email);
   $('.celular').val(data.Movil);
-  $('.telefono').val(data.Telefono);
+  //$('.telefono').val(data.Telefono);
   $('.user').val(data.Usuario);
   //$('.tipo').val(data.tipo);
+ //Cargar Empresa
+ url     = "sources/usuario.php?op=7";
+ empresa = "";
+
+ $.getJSON(url,{},function(row_e){
+ 
+ row_e.forEach(function(data_e){
+
+  if(data.Empresa==data_e.id)
+  {
+  empresa += '<option value="'+data_e.id+'" selected>'+data_e.alias+'</option>';
+  }
+  else
+  {
+  empresa += '<option value="'+data_e.id+'">'+data_e.alias+'</option>';
+  }
+
+
+ $('.empresa').html(empresa);
+
+ });
+
+ });
+
+
+
 
 
  });  

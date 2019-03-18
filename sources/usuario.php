@@ -77,7 +77,8 @@ $nombre     = $funciones->validar_xss($_REQUEST['nombres']);
 $correo     = $funciones->validar_xss($_REQUEST['correo']);
 $celular    = $funciones->validar_xss($_REQUEST['celular']);
 $user       = $funciones->validar_xss($_REQUEST['user']);
-$telefono   = $funciones->validar_xss($_REQUEST['telefono']);
+$telefono   = 0;
+$empresa    = $funciones->validar_xss($_REQUEST['empresa']);
 
 if($_REQUEST['type']=='agregar')
 {
@@ -101,12 +102,12 @@ $funciones->message('Usuario Duplicado','El Usuario ya esta registrado','warning
 else
 {
 
-$query =  "INSERT INTO Usuarios(Nombre,Usuario,Email,Telefono,Movil)
-VALUES (:nombre,:user,:correo,:telefono,:celular)";
+$query =  "INSERT INTO Usuarios(Nombre,Usuario,Email,Empresa,Movil)
+VALUES (:nombre,:user,:correo,:empresa,:celular)";
 $statement = $conexion->prepare($query);
 $statement->bindParam(':nombre',$nombre);
 $statement->bindParam(':correo',$correo);
-$statement->bindParam(':telefono',$telefono);
+$statement->bindParam(':empresa',$empresa);
 $statement->bindParam(':celular',$celular);
 $statement->bindParam(':user',$user);
 $statement->execute();
@@ -142,7 +143,7 @@ $query =  "UPDATE  Usuarios SET
  Email=:correo,
  Movil=:celular,
  Usuario=:user,
- Telefono=:telefono
+ Empresa=:empresa
 
  WHERE id=:id ";
 $statement = $conexion->prepare($query);
@@ -150,7 +151,7 @@ $statement->bindParam(':nombres',$nombre);
 $statement->bindParam(':correo',$correo);
 $statement->bindParam(':celular',$celular);
 $statement->bindParam(':user',$user);
-$statement->bindParam(':telefono',$telefono);
+$statement->bindParam(':empresa',$empresa);
 $statement->bindParam(':id',$id);
 $statement->execute();
 
@@ -275,6 +276,15 @@ echo $e->getMessage();
 
 break;
 
+
+case  7:
+
+$query  = "SELECT * FROM Empresa";
+$result = $funciones->query($query);
+
+echo json_encode($result);
+
+break;
 
 default:
 echo "opción no disponible";
