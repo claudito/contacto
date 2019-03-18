@@ -146,7 +146,7 @@ $query =  "UPDATE  Usuarios SET
 
  WHERE id=:id ";
 $statement = $conexion->prepare($query);
-$statement->bindParam(':nombres',$nombres);
+$statement->bindParam(':nombres',$nombre);
 $statement->bindParam(':correo',$correo);
 $statement->bindParam(':celular',$celular);
 $statement->bindParam(':user',$user);
