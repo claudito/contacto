@@ -7,7 +7,7 @@ $.getJSON(url,{},function(data){
 
 data.forEach(function (row){
 
-empresa += '<option value="'+row.Id+'">'+row.alias+'</option>';
+empresa += '<option value="'+row.id+'">'+row.alias+'</option>';
 
 $('.empresa').html(empresa);
 

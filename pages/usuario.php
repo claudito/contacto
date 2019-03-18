@@ -128,7 +128,7 @@
     <div class="col-md-6">
     <div class="form-group">
     <label>Telefóno</label>
-    <input type="tel" name="telefono"  class="telefono form-control " required pattern="[0-9]{9}" maxlength="9">
+    <input type="tel" name="telefono"  class="telefono form-control "  maxlength="9">
    
     </div> 
     </div>

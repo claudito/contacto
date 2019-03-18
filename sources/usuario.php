@@ -73,7 +73,7 @@ break;
 
 case 4:
 
-$nombres    = $funciones->validar_xss($_REQUEST['nombres']);
+$nombre     = $funciones->validar_xss($_REQUEST['nombres']);
 $correo     = $funciones->validar_xss($_REQUEST['correo']);
 $celular    = $funciones->validar_xss($_REQUEST['celular']);
 $user       = $funciones->validar_xss($_REQUEST['user']);
@@ -84,19 +84,40 @@ if($_REQUEST['type']=='agregar')
 
 try {
 	
-$query =  "INSERT INTO usuario(nombres,apellidos,correo,celular,user,tipo)
-VALUES (:nombres,:apellidos,:correo,:celular,:user,:tipo)";
+
+$query     = "SELECT  * FROM Usuarios WHERE Usuario=:user";
 $statement = $conexion->prepare($query);
-$statement->bindParam(':nombres',$nombres);
-$statement->bindParam(':apellidos',$apellidos);
+$statement->bindParam(':user',$user);
+$statement->execute();
+$result    = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+if(count($result)>0)
+{
+
+$funciones->message('Usuario Duplicado','El Usuario ya esta registrado','warning');
+
+
+}
+else
+{
+
+$query =  "INSERT INTO Usuarios(Nombre,Usuario,Email,Telefono,Movil)
+VALUES (:nombre,:user,:correo,:telefono,:celular)";
+$statement = $conexion->prepare($query);
+$statement->bindParam(':nombre',$nombre);
 $statement->bindParam(':correo',$correo);
-$statement->bindParam(':correo',$correo);
+$statement->bindParam(':telefono',$telefono);
 $statement->bindParam(':celular',$celular);
 $statement->bindParam(':user',$user);
-$statement->bindParam(':tipo',$tipo);
 $statement->execute();
 
 $funciones->message('Buen Trabajo','Registro Agregado','success');
+
+
+}
+
+
+
 
 } catch (Exception $e) {
 	
