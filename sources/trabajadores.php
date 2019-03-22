@@ -28,10 +28,14 @@ t.apellidos,
 t.cargo, 
 t.dni, 
 t.id_empresa,
-UPPER(e.alias) empresa
+UPPER(e.alias) empresa,
+UPPER(ti.nombre)tienda
 
 
-FROM Trabajadores t  INNER JOIN Empresa e ON t.id_empresa=e.id
+FROM Trabajadores t  
+LEFT JOIN Empresa e ON t.id_empresa=e.id
+LEFT JOIN Tienda ti ON t.id_tienda=ti.id
+
 
 ";
 $statement = $conexion->query($query);
@@ -67,7 +71,7 @@ $apellidos   = $funciones->validar_xss($_REQUEST['apellidos']);
 $cargo       = $funciones->validar_xss($_REQUEST['cargo']);
 $dni         = $funciones->validar_xss($_REQUEST['dni']);
 $empresa     = $funciones->validar_xss($_REQUEST['empresa']);
-
+$tienda      = $funciones->validar_xss($_REQUEST['tienda']);
 
 if($_REQUEST['type']=='agregar')
 {
@@ -91,14 +95,15 @@ $funciones->message('Dni Duplicado','El DNI ya esta registrado','warning');
 else
 {
 
-$query =  "INSERT INTO Trabajadores(nombres,apellidos,cargo,dni,id_empresa)
-VALUES (:nombres,:apellidos,:cargo,:dni,:id_empresa)";
+$query =  "INSERT INTO Trabajadores(nombres,apellidos,cargo,dni,id_empresa,id_tienda)
+VALUES (:nombres,:apellidos,:cargo,:dni,:id_empresa,:id_tienda)";
 $statement = $conexion->prepare($query);
 $statement->bindParam(':nombres',$nombres);
 $statement->bindParam(':apellidos',$apellidos);
 $statement->bindParam(':cargo',$cargo);
 $statement->bindParam(':dni',$dni);
 $statement->bindParam(':id_empresa',$empresa);
+$statement->bindParam(':id_tienda',$tienda);
 $statement->execute();
 
 $funciones->message('Buen Trabajo','Registro Agregado','success');
@@ -132,7 +137,8 @@ $query =  "UPDATE  Trabajadores SET
  apellidos=:apellidos,
  cargo=:cargo,
  dni=:dni,
- id_empresa=:empresa
+ id_empresa=:empresa,
+ id_tienda =:tienda
 
  WHERE id=:id ";
 $statement = $conexion->prepare($query);
@@ -141,6 +147,7 @@ $statement->bindParam(':apellidos',$apellidos);
 $statement->bindParam(':cargo',$cargo);
 $statement->bindParam(':dni',$dni);
 $statement->bindParam(':empresa',$empresa);
+$statement->bindParam(':tienda',$tienda);
 $statement->bindParam(':id',$id);
 $statement->execute();
 
@@ -161,7 +168,17 @@ break;
 
 case  4:
 
-$query  = "SELECT * FROM Empresa";
+$query  = "SELECT id,UPPER(alias)alias,Razon_Social,RUC,Direccion FROM Empresa";
+$result = $funciones->query($query);
+
+echo json_encode($result);
+
+break;
+
+
+case  5:
+
+$query  = "SELECT * FROM Tienda";
 $result = $funciones->query($query);
 
 echo json_encode($result);

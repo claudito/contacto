@@ -20,6 +20,7 @@
               <th>DNI</th>
               <th>Cargo</th>
               <th>Empresa</th>
+              <th>Tienda</th>
               <th></th>
               
 
@@ -80,7 +81,7 @@
     </div>
     <div class="col-md-6">
     <label>DNI</label>
-    <input type="tel" name="dni"  class="dni form-control" required pattern="[0-9]{8}" maxlength="8">
+    <input type="tel" name="dni"  class="dni form-control" required maxlength="8">
     
     </div>
     </div>
@@ -89,7 +90,12 @@
     <div class="form-group">
     <label>Empresa</label>
     <select name="empresa" class="empresa form-control" required ></select>
-    </div> 
+    </div>
+
+    <div class="form-group">
+    <label>Tienda</label>
+    <select name="tienda" class="tienda form-control" required ></select>
+    </div>  
 
 
 
@@ -136,6 +142,7 @@ $('#consulta').dataTable({
 { mData: 'dni'},
 { mData: 'cargo'},
 { mData: 'empresa'},
+{ mData: 'tienda'},
 { mData:  null,render:function(data){
 
 acciones  = '<button type="button" class="btn btn-primary btn-edit btn-sm" data-id="'+data.id+'"><i class="fa fa-edit"></i></button>';
@@ -177,6 +184,23 @@ e.stopImmediatePropagation();
  empresa += '<option value="'+data.id+'">'+data.alias+'</option>';
 
  $('.empresa').html(empresa);
+
+ });
+
+ });
+
+
+  //Cargar Tienda
+ url     = "sources/trabajadores.php?op=5";
+ tienda  = '<option value="">[Seleccionar]</option>';
+
+ $.getJSON(url,{},function(row){
+ 
+ row.forEach(function(data){
+
+ tienda += '<option value="'+data.id+'">'+data.nombre+'</option>';
+
+ $('.tienda').html(tienda);
 
  });
 
@@ -228,6 +252,32 @@ $(document).on('click','.btn-edit',function (e){
 
 
  $('.empresa').html(empresa);
+
+ });
+
+ });
+
+
+
+  //Cargar Tienda
+ url     = "sources/trabajadores.php?op=5";
+ tienda  = "";
+
+ $.getJSON(url,{},function(row_t){
+ 
+ row_t.forEach(function(data_t){
+
+  if(data.id_tienda==data_t.id)
+  {
+  tienda += '<option value="'+data_t.id+'" selected>'+data_t.nombre+'</option>';
+  }
+  else
+  {
+  tienda += '<option value="'+data_t.id+'">'+data_t.nombre+'</option>';
+  }
+
+
+ $('.tienda').html(tienda);
 
  });
 
