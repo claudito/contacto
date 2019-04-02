@@ -40,6 +40,9 @@
   <!-- MD5 JS -->
   <script src="https://blueimp.github.io/JavaScript-MD5/js/md5.js"></script>
 
+
+
+
 <!-- Convertir a Mayúsculas -->
 <script>
 function Mayusculas(field) 
