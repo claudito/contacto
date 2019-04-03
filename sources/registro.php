@@ -67,6 +67,55 @@ echo "Error: ".$e->getMessage();
 
 break;
 
+
+case  3:
+
+
+$nombre      =  $funciones->validar_xss($_REQUEST['nombre']);
+$tipo_doc    =  $funciones->validar_xss($_REQUEST['tipo_doc']);
+$cif         =  $funciones->validar_xss($_REQUEST['cif']);
+
+try {
+
+
+$query     =  "SELECT  * FROM Clientes WHERE CIF=:cif";
+$statement =  $conexion->prepare($query);
+$statement->bindParam(':cif',$cif);
+$statement->execute();
+$result    = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+if(count($result)>0)
+{
+
+$funciones->message("Cliente","Ya Registrado","warning");
+
+}
+else
+{
+
+$query = "INSERT INTO Clientes(Nombre,CIF,TipoDocumento)VALUES
+(:nombre,:cif,:tipo_doc)";
+$statement = $conexion->prepare($query);
+$statement->bindParam(':nombre',$nombre);
+$statement->bindParam(':cif',$cif);
+$statement->bindParam(':tipo_doc',$tipo_doc);
+$statement->execute();
+
+$funciones->message("Buen Trabajo","Cliente Agregado","success");
+
+	
+}
+
+	
+} catch (Exception $e) {
+
+$funciones->message("Error",$e->getMessage(),"error");
+
+	
+}
+
+break;
+
 default:
 echo "opción no disponible";
 break;

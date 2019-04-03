@@ -72,7 +72,10 @@
 
 <div class="form-group row">
 <label  class="col-sm-2 col-form-label">Cliente</label>
-<div class="col-sm-10">
+<div class="col-sm-1">
+<button  type="button" class="btn btn-success btn-nuevo-cliente"><i class="fa fa-plus"></i></button>
+</div>
+<div class="col-sm-9">
 <select   class="demo-default cliente" name="cliente" required placeholder="Buscar Cliente"></select>
 </div>
 </div>
@@ -143,6 +146,73 @@
 </div>
 </form>
 
+
+
+
+<!-- Modal Nuevo Cliente -->
+<form id="nuevo-cliente" autocomplete="off">
+<div class="modal fade" id="modal-nuevo-cliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+
+
+    <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">Nombre</label>
+    <div class="col-sm-9">
+    <input type="text"  class="nombre form-control" name="nombre"  required onchange="Mayusculas(this)">
+    </div>
+    </div>
+
+    <div class="form-group">
+    <select name="tipo_doc"  class="tipo_doc form-control">
+    <option value=""></option>
+    <option value="DNI">DNI</option>
+    <option value="PASAPORTE">PASAPORTE</option>
+    <option value="RUC">RUC</option>
+    </select>
+    </div>
+
+
+    <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+    <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+    </div>
+    </div>
+
+
+
+     <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">Número</label>
+    <div class="col-sm-9">
+    <input type="number"  class="cif form-control" name="cif"  required>
+    </div>
+    </div>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button class="btn btn-primary">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
 
 
 
@@ -261,6 +331,66 @@ $(document).on('click','.btn-edit',function (e){
 
 
 
+//Cargar Modal Nuevo Cliente
+$(document).on('click','.btn-nuevo-cliente',function (e){
+
+ e.stopImmediatePropagation();
+
+
+ $('#modal-nuevo-cliente').modal('show');
+
+});
+
+
+//Agregar Nuevo Cliente
+$(document).on('submit','#nuevo-cliente',function (e){
+
+ e.stopImmediatePropagation();
+
+parametros =  $(this).serialize();
+
+
+$.ajax({
+
+url:"sources/registro.php?op=3",
+type:"POST",
+data:parametros,
+dataType:"JSON",
+beforeSend:function(){
+
+swal({
+  title: "Cargando",
+  imageUrl:"assets/img/loader2.gif",
+  text:  "Espere un momento, no cierre la ventana.",
+  timer: 3000,
+  showConfirmButton: false
+});
+
+
+},
+success:function(data){
+
+
+swal({
+  title: data.title,
+  text:  data.text,
+  type:  data.type,
+  timer: 3000,
+  showConfirmButton: false
+});
+
+
+
+}
+
+
+
+});
+
+
+
+e.preventDefault();
+});
 
 
 
