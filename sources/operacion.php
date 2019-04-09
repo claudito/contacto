@@ -1,5 +1,6 @@
 <?php 
 
+include'../vendor/autoload.php';
 include'../autoload.php';
 
 $session =  new Session();
@@ -45,16 +46,78 @@ $name =  trim($_REQUEST['name']);
 
 try {
 	
-$query  =  "SELECT  id, Nombre, Contacto, Direccion, Poblacion, CP, Provincia, CIF, Telefono, Fax, Email, NombreCorto, CuentaBanco, Creado, txtCategoria, CodigoCliente, idFPago, FPago, Segmento, TipoDocumento, Nacionalidad ,
+
+switch ($_REQUEST['tipo']) {
+	case 'clientes':
+	
+    $query  =  "SELECT  id, Nombre, Contacto, Direccion, Poblacion, CP, Provincia, CIF, Telefono, Fax, Email, NombreCorto, CuentaBanco, Creado, txtCategoria, CodigoCliente, idFPago, FPago, Segmento, TipoDocumento, Nacionalidad ,
 
 CONCAT(UPPER(Nombre),' - ',CIF) name
 
 FROM Clientes WHERE CONCAT(Nombre,CIF) LIKE '%".$name."%'";
-$statement = $conexion->prepare($query);
-$statement->execute();
-$result  = $statement->fetchAll(PDO::FETCH_ASSOC);
+$result  = $funciones->query($query);
 
 echo json_encode($result);
+
+		break;
+
+    case 'estado':
+
+$query  =  "SELECT id, Nombre FROM EstadosOperaciones WHERE Nombre LIKE '%".$name."%'";
+$result  = $funciones->query($query);
+
+echo json_encode($result);
+
+    break;
+
+
+    case  'modelo':
+
+$query  =  "SELECT id, Modelo Nombre,CopiaDe FROM Terminales WHERE Modelo LIKE '%".$name."%'";
+$result  = $funciones->query($query);
+
+echo json_encode($result);
+
+
+    break;
+
+
+
+    case  'accesorio':
+
+$query  =  "SELECT id, Descripcion Nombre FROM Articulos WHERE NombreFamilia='ACCESORIOS'AND Descripcion LIKE '%".$name."%'";
+$result  = $funciones->query($query);
+
+echo json_encode($result);
+
+
+    break;
+
+       case  'operacion':
+
+$query  =  "SELECT id, Nombre FROM TipoOperacion WHERE Nombre LIKE '%".$name."%'";
+$result  = $funciones->query($query);
+
+echo json_encode($result);
+
+
+    break;
+
+
+        case  'contrato':
+
+$query  =  "SELECT id, Nombre FROM Contrato WHERE Nombre LIKE '%".$name."%'";
+$result  = $funciones->query($query);
+
+echo json_encode($result);
+
+
+    break;
+	
+	default:
+echo "opcion no disponible";
+		break;
+}
 
 
 
@@ -71,9 +134,9 @@ break;
 case  3:
 
 
-$nombre      =  $funciones->validar_xss($_REQUEST['nombre']);
-$tipo_doc    =  $funciones->validar_xss($_REQUEST['tipo_doc']);
-$cif         =  $funciones->validar_xss($_REQUEST['cif']);
+$nombres      =  $funciones->validar_xss($_REQUEST['nombres']);
+$tipo_doc     =  $funciones->validar_xss($_REQUEST['tipo_doc']);
+$cif          =  $funciones->validar_xss($_REQUEST['documento']);
 
 try {
 
@@ -96,7 +159,7 @@ else
 $query = "INSERT INTO Clientes(Nombre,CIF,TipoDocumento)VALUES
 (:nombre,:cif,:tipo_doc)";
 $statement = $conexion->prepare($query);
-$statement->bindParam(':nombre',$nombre);
+$statement->bindParam(':nombre',$nombres);
 $statement->bindParam(':cif',$cif);
 $statement->bindParam(':tipo_doc',$tipo_doc);
 $statement->execute();
@@ -113,6 +176,35 @@ $funciones->message("Error",$e->getMessage(),"error");
 
 	
 }
+
+break;
+
+
+
+case  4:
+
+$numero  =  trim($_REQUEST['numero']);
+$tipo    =  trim($_REQUEST['tipo']);
+
+try {
+
+$company = new \Sunat\Sunat( true, true );
+
+	//$numero = "10467942820";
+	
+	$ruc = ( isset($numero))? $numero : false;
+	$search1 = $company->search( $ruc );
+	
+	echo $search1->json();
+
+	
+} catch (Exception $e) {
+
+echo "Error: ".$e->getMessage();
+
+	
+ }
+
 
 break;
 

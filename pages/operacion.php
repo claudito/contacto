@@ -64,14 +64,18 @@
 
 
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">Fecha</label>
+<label  class="col-sm-2 col-form-label">Fecha:</label>
 <div class="col-sm-3">
 <input type="date"  class="form-control" name="fecha" value="<?=  date('Y-m-d') ?>" required>
+</div>
+<label  class="col-sm-1 col-form-label">Estado:</label>
+<div class="col-sm-3">
+<select name="estado"  class="estado demo-default" required placeholder="Estado"></select>
 </div>
 </div>
 
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">Cliente</label>
+<label  class="col-sm-2 col-form-label">Cliente:</label>
 <div class="col-sm-1">
 <button  type="button" class="btn btn-success btn-nuevo-cliente"><i class="fa fa-plus"></i></button>
 </div>
@@ -81,16 +85,16 @@
 </div>
 
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">Id Order</label>
+<label  class="col-sm-2 col-form-label">Id Order:</label>
 <div class="col-sm-3">
 <input type="number"  class="form-control" name="id_order" min="1" required>
 </div>
 </div>
 
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">Modelo</label>
+<label  class="col-sm-2 col-form-label">Modelo:</label>
 <div class="col-sm-5">
-<select   class="form-control modelo" name="modelo" required></select>
+<select   class="demo-default modelo" name="modelo" required placeholder="Modelo"></select>
 </div>
 <div class="col-sm-2">
 <div class="checkbox"><label><input type="checkbox"   class="">Mostra Solo Stock</label></div>
@@ -101,9 +105,9 @@
 </div>
 
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">Operación</label>
+<label  class="col-sm-2 col-form-label">Operación:</label>
 <div class="col-sm-5">
-<select   class="form-control operacion" name="operacion" required></select>
+<select   class="demo-default operacion" name="operacion" required placeholder="Operación"></select>
 </div>
 <div class="col-sm-2">
 <div class="checkbox"><label><input type="checkbox"   class="">Mostra Todas</label></div>
@@ -113,22 +117,39 @@
 </div>
 </div>
 
+
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">Accesorio</label>
+<label  class="col-sm-2 col-form-label">Contrato:</label>
 <div class="col-sm-5">
-<select   class="form-control accesorio" name="accesorio" required></select>
+<select   class="demo-default contrato" name="contrato" required placeholder="Contrato"></select>
 </div>
-<div class="col-sm-2">
-<div class="checkbox"><label><input type="checkbox"   class="">Mostrar Solo Stock</label></div>
 </div>
-<div class="col-sm-3">
-<select name="icc"  class="form-control icc"  required></select>
+
+<div class="form-group row">
+<label  class="col-sm-3 col-form-label">Promoción / Campaña:</label>
+<div class="col-sm-5">
+<select   class="demo-default promocion" name="promocion" required placeholder="Promoción / Campaña"></select>
 </div>
 </div>
 
 
 <div class="form-group row">
-<label  class="col-sm-2 col-form-label">A Pagar</label>
+<label  class="col-sm-2 col-form-label">Accesorio:</label>
+<div class="col-sm-5">
+<select   class="demo-default accesorio" name="accesorio" required placeholder="Accesorio"></select>
+</div>
+
+</div>
+
+<div class="form-group row">
+<label  class="col-sm-2 col-form-label">Telefóno:</label>
+<div class="col-sm-3">
+<input type="number"  class="form-control" name="telefono" min="1" required>
+</div>
+</div>
+
+<div class="form-group row">
+<label  class="col-sm-2 col-form-label">A Pagar:</label>
 <div class="col-sm-3">
 <input type="number"  class="form-control"  min="1" step="any" required>
 </div>
@@ -165,16 +186,9 @@
 
 
 
-    <div class="form-group row">
-    <label  class="col-sm-2 col-form-label">Nombre</label>
-    <div class="col-sm-9">
-    <input type="text"  class="nombre form-control" name="nombre"  required onchange="Mayusculas(this)">
-    </div>
-    </div>
-
     <div class="form-group">
     <select name="tipo_doc"  class="tipo_doc form-control">
-    <option value=""></option>
+    <option value="">Seleccionar</option>
     <option value="DNI">DNI</option>
     <option value="PASAPORTE">PASAPORTE</option>
     <option value="RUC">RUC</option>
@@ -183,20 +197,32 @@
 
 
     <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+    <input type="number" class="numero_cliente form-control" placeholder="Ingrese el número" aria-label="Recipient's username" aria-describedby="button-addon2">
     <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+    <button class="btn btn-outline-secondary btn-buscar-cliente" type="button" >Buscar</button>
     </div>
     </div>
 
 
+    <hr>
 
-     <div class="form-group row">
-    <label  class="col-sm-2 col-form-label">Número</label>
-    <div class="col-sm-9">
-    <input type="number"  class="cif form-control" name="cif"  required>
+    <div class="form-group">
+    <label>Nombres</label>
+    <input type="text" name="nombres" class="nombres form-control" required>
     </div>
+
+
+    <div class="form-group">
+    <label>Documento</label>
+    <input type="text" name="documento" class="documento form-control" required>
     </div>
+
+
+    <div class="form-group">
+    <label>Condición</label>
+    <input type="text" name="condicion" class="condicion form-control" required>
+    </div>
+
 
 
 
@@ -237,7 +263,7 @@ $('#consulta').dataTable({
 "url": "assets/js/spanish.json"
 },
 "bProcessing": true,
-"sAjaxSource": "sources/registro?op=1",
+"sAjaxSource": "sources/operacion.php?op=1",
 "aoColumns": [
 
 { mData:  null,render:function(data){
@@ -275,8 +301,7 @@ $(document).on('click','.btn-agregar',function (e){
 e.stopImmediatePropagation();
 
 
-
-//Cargar Participantes
+/*Inicio Cargar Clientes*/
 $('.cliente').selectize({
 maxItems: 1,
 valueField: 'id',
@@ -288,11 +313,11 @@ load: function(query, callback) {
 if (!query.length) return callback();
 
 $.ajax({
-url: 'sources/registro.php?op=2',
+url: 'sources/operacion.php?op=2',
 type: 'GET',
 dataType: 'json',
 data: {
-name: query,
+name: query,'tipo':'clientes'
 },
 error: function() {
 callback();
@@ -302,11 +327,173 @@ callback(res);
 }
 });
 
-}//
+}
 
 });
 
+/*Fin Cargar Clientes */
 
+/*Inicio Cargar Estado Operación*/
+$('.estado').selectize({
+maxItems: 1,
+valueField: 'Nombre',
+labelField: 'Nombre',
+searchField: 'Nombre',
+options: [],
+create: false,
+load: function(query, callback) {
+if (!query.length) return callback();
+
+$.ajax({
+url: 'sources/operacion.php?op=2',
+type: 'GET',
+dataType: 'json',
+data: {
+name: query,'tipo':'estado'
+},
+error: function() {
+callback();
+},
+success: function(res) {
+callback(res);
+}
+});
+
+}
+
+});
+
+/*Fin Cargar Estado Operación */
+
+/*Inicio Cargar de Modelos*/
+$('.modelo').selectize({
+maxItems: 1,
+valueField: 'Nombre',
+labelField: 'Nombre',
+searchField: 'Nombre',
+options: [],
+create: false,
+load: function(query, callback) {
+if (!query.length) return callback();
+
+$.ajax({
+url: 'sources/operacion.php?op=2',
+type: 'GET',
+dataType: 'json',
+data: {
+name: query,'tipo':'modelo'
+},
+error: function() {
+callback();
+},
+success: function(res) {
+callback(res);
+}
+});
+
+}
+
+});
+
+/*Fin Cargar de Modelos */
+
+
+/*Inicio Cargar de Accesorios*/
+$('.accesorio').selectize({
+maxItems: 1,
+valueField: 'Nombre',
+labelField: 'Nombre',
+searchField: 'Nombre',
+options: [],
+create: false,
+load: function(query, callback) {
+if (!query.length) return callback();
+
+$.ajax({
+url: 'sources/operacion.php?op=2',
+type: 'GET',
+dataType: 'json',
+data: {
+name: query,'tipo':'accesorio'
+},
+error: function() {
+callback();
+},
+success: function(res) {
+callback(res);
+}
+});
+
+}
+
+});
+
+/*Fin Cargar de Accesorios */
+
+/*Inicio Carga de Operaciones*/
+$('.operacion').selectize({
+maxItems: 1,
+valueField: 'Nombre',
+labelField: 'Nombre',
+searchField: 'Nombre',
+options: [],
+create: false,
+load: function(query, callback) {
+if (!query.length) return callback();
+
+$.ajax({
+url: 'sources/operacion.php?op=2',
+type: 'GET',
+dataType: 'json',
+data: {
+name: query,'tipo':'operacion'
+},
+error: function() {
+callback();
+},
+success: function(res) {
+callback(res);
+}
+});
+
+}
+
+});
+
+/*Fin Carga de Operaciones */
+
+
+/*Inicio Carga de Contratos*/
+$('.contrato').selectize({
+maxItems: 1,
+valueField: 'Nombre',
+labelField: 'Nombre',
+searchField: 'Nombre',
+options: [],
+create: false,
+load: function(query, callback) {
+if (!query.length) return callback();
+
+$.ajax({
+url: 'sources/operacion.php?op=2',
+type: 'GET',
+dataType: 'json',
+data: {
+name: query,'tipo':'contrato'
+},
+error: function() {
+callback();
+},
+success: function(res) {
+callback(res);
+}
+});
+
+}
+
+});
+
+/*Fin Carga de Contratos */
 
 
  $('.btn-submit').html('Guarda Operación');
@@ -334,8 +521,8 @@ $(document).on('click','.btn-edit',function (e){
 //Cargar Modal Nuevo Cliente
 $(document).on('click','.btn-nuevo-cliente',function (e){
 
+$('#nuevo-cliente')[0].reset();
  e.stopImmediatePropagation();
-
 
  $('#modal-nuevo-cliente').modal('show');
 
@@ -352,7 +539,7 @@ parametros =  $(this).serialize();
 
 $.ajax({
 
-url:"sources/registro.php?op=3",
+url:"sources/operacion.php?op=3",
 type:"POST",
 data:parametros,
 dataType:"JSON",
@@ -393,7 +580,122 @@ e.preventDefault();
 });
 
 
+//Buscar Cliente
+$(document).on('click','.btn-buscar-cliente',function(e){
 
+ e.stopImmediatePropagation();
+
+
+
+ numero_cliente = $('.numero_cliente').val();
+ tipo_doc       = $('.tipo_doc').val();
+
+
+  if(tipo_doc=='')
+  {
+
+  swal({
+  title: "Ingrese el tipo de documento",
+  text:  "",
+  type:  "warning",
+  timer: 1000,
+  showConfirmButton: false
+});
+
+return false
+  }
+
+
+    if(numero_cliente=='')
+  {
+
+  swal({
+  title: "Ingrese el número",
+  text:  "",
+  type:  "warning",
+  timer: 1000,
+  showConfirmButton: false
+});
+
+return false
+  }
+
+
+//Envío por ajax
+$.ajax({
+
+url:"sources/operacion.php?op=4",
+type:"POST",
+dataType:"JSON",
+data:{'numero':numero_cliente,'tipo':tipo_doc},
+beforeSend:function(){
+
+swal({
+  title: "Cargando",
+  imageUrl:"assets/img/loader2.gif",
+  text:  "Espere un momento, no cierre la ventana.",
+  timer: 3000,
+  showConfirmButton: false
+});
+
+},
+success:function(data)
+{
+
+
+if(data['success']==true)
+{
+
+$('.nombres').val('');
+$('.documento').val('');
+$('.condicion').val('');
+
+$('.nombres').val(data['result']['razon_social']);
+$('.documento').val(data['result']['ruc']);
+$('.condicion').val(data['result']['condicion']);
+
+
+swal({
+title: "",
+text:  "Registro encontrado",
+type:  "success",
+timer: 1000,
+showConfirmButton: false
+});
+
+
+}
+else
+{
+
+$('.nombres').val('');
+$('.documento').val('');
+$('.condicion').val('');
+
+swal({
+title: "",
+text:  "No se encontraron resultados",
+type:  "info",
+timer: 1000,
+showConfirmButton: false
+});
+
+
+}
+
+
+}
+
+
+});
+
+
+
+
+
+
+
+});
 
 
 </script>
