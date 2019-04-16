@@ -87,7 +87,7 @@
 <div class="form-group row">
 <label  class="col-sm-2 col-form-label">Id Order:</label>
 <div class="col-sm-3">
-<input type="number"  class="form-control" name="id_order" min="1" required>
+<input type="text"  class="form-control" name="id_order" pattern="[0-9]+"  minlength="8" maxlength="8" required>
 </div>
 </div>
 
@@ -103,6 +103,14 @@
 <div class="checkbox"><label><input type="checkbox"   class="">Mostrar Descatalogados</label></div>
 </div>
 </div>
+
+<div class="form-group row">
+<label  class="col-sm-2 col-form-label">IMEI:</label>
+<div class="col-sm-5">
+<input type="text" name="imei" class="imei form-control" required readonly>
+</div>
+</div>
+
 
 <div class="form-group row">
 <label  class="col-sm-2 col-form-label">Operación:</label>
@@ -241,7 +249,36 @@
 </form>
 
 
+<!-- Modal IMEI -->
+<div class="modal fade" id="modal-imei" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5  id="exampleModalLabel">IMEI</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+       <div class="table-responsive">
+         <table id="consulta_imei"  class="table table-hover table-sm" style="font-size: 12px">
+           <thead class="thead-dark">
+             <tr>
+               <th>Punto de Venta</th>
+               <th>Modelo</th>
+               <th>IMEI</th>
+               <th>Tipo</th>
+               <th>Días</th>
+             </tr>
+           </thead>
+         </table>
+       </div>
 
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -388,12 +425,16 @@ callback();
 },
 success: function(res) {
 callback(res);
+
+console.log(res);
+
 }
 });
 
 }
 
 });
+
 
 /*Fin Cargar de Modelos */
 
@@ -691,11 +732,95 @@ showConfirmButton: false
 
 
 
+});
 
 
+
+function loadIMEI(modelo)
+{
+
+ $(document).ready(function (){
+
+var oTable =  $('#consulta_imei').dataTable({
+
+ //"order": [[ 4, "desc" ]],
+//dom: 'Bfrtip',
+"destroy":true,
+ "deferRender": true,
+"bAutoWidth": false,
+"iDisplayLength": 25,
+"language": {
+"url": "assets/js/spanish.json"
+},
+"bProcessing": true,
+"sAjaxSource": "sources/operacion.php?op=5",
+"fnServerParams": function ( aoData ) {
+aoData.push( 
+
+  { "name":"modelo", "value": modelo }
+
+
+  );
+},
+"aoColumns": [
+
+{ mData: 'PuntoVenta'},
+{ mData: 'Modelo'},
+{ mData: null,render:function(data){
+
+imei = '<span data-imei="'+data.IMEI+'" class="click-imei">'+data.IMEI+'</span>';
+
+return imei;
+
+} ,className:"text-primary text-center"},
+{ mData: 'Tipo'},
+{ mData: 'dias'}
+]
+
+});
+
+
+
+
+ });
+
+}
+
+
+
+//Capturar elemento seleccionado
+$('select.modelo').on('change',function(e){
+
+e.stopImmediatePropagation();
+
+var valor = $(this).val();
+
+if(valor!=='')
+{
+
+$('.imei').val('');
+ loadIMEI(valor);
+$('#modal-imei').modal('show');
+
+
+}
+
+});
+
+
+//Click IMEI
+$(document).on('click','.click-imei',function(e){
+
+ e.stopImmediatePropagation();
+
+ imei = $(this).data('imei');
+
+$('.imei').val(imei);
+$('#modal-imei').modal('hide');
 
 
 });
+
 
 
 </script>

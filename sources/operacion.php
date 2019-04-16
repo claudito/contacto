@@ -208,6 +208,53 @@ echo "Error: ".$e->getMessage();
 
 break;
 
+case  5:
+
+$modelo = trim($_REQUEST['modelo']);
+$now    = date('Y-m-d');
+
+try {
+
+$query =  "
+SELECT 
+
+c.Factura,
+c.FechaFactura,
+c.PuntoVenta,
+d.Modelo,
+d.IMEI,
+d.Tipo,
+d.NombrePuntoVenta,
+DATEDIFF(:now, DATE_FORMAT(c.fechaFactura,'%Y-%m-%d')) dias
+
+
+FROM compras  c  
+
+INNER JOIN detallecompras d  ON c.Factura=d.Factura  WHERE 
+d.Modelo =:modelo ";
+$statement = $conexion->prepare($query);
+$statement->bindParam(':modelo',$modelo);
+$statement->bindParam(':now',$now);
+$statement->execute();
+$result      = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+$results = ["sEcho" => 1,
+          "iTotalRecords" => count($result),
+          "iTotalDisplayRecords" => count($result),
+          "aaData" => $result 
+           ];
+echo json_encode($results);
+
+
+	
+} catch (Exception $e) {
+	
+echo "Error: ".$e->getMessage();
+
+}
+
+break;
+
 default:
 echo "opción no disponible";
 break;

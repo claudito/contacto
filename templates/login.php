@@ -22,7 +22,8 @@
   <!-- Custom styles for this template-->
   <link href="assets/css/sb-admin-2.css" rel="stylesheet">
 
-  <!-- MD5 JS -->
+  <!-- MD5 JS 
+  </-->   
   <script src="https://blueimp.github.io/JavaScript-MD5/js/md5.js"></script>
 
   <!-- Sweet Alert -->
